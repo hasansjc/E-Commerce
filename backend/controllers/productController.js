@@ -1,28 +1,28 @@
-const Product = require('../models/productModel')
-
+const Product = require('../models/productModel');
+const ErrorHandler = require('../utils/errrorhandler');
+const asyncErrHandler= require('../middleware/catchAsyncErrors')
 
 
 //Creating the product ---Only for Admin
-exports.createProduct = async (req,res,next) =>{
+exports.createProduct = asyncErrHandler(async (req,res,next) =>{
     const product = await Product.create(req.body);
     res.status(201).json({
         success:true,
         msg:"product created successfully",
         product
-    })
-   
-}
+    })  
+})
 // Get All Products
-exports.getAllProducts = async (req,res) =>{
+exports.getAllProducts = asyncErrHandler(async (req,res) =>{
     const products = await Product.find();
-    res.status(200).send.json({
+    res.status(200).json({
         success:true,
         products  
     })
-}
+})
 
 //Update product details
-exports.updateProduct = async (req,res,next) =>{
+exports.updateProduct = asyncErrHandler(async (req,res,next) =>{
     let product =await Product.findById(req.params.id);
     if(!product){
         return res.status(500).json({
@@ -41,9 +41,9 @@ exports.updateProduct = async (req,res,next) =>{
             product
         })
     }
-}
+})
 // delete product --Admin
-exports.deleteProduct = async (req,res,next) =>{
+exports.deleteProduct = asyncErrHandler(async (req,res,next) =>{
     let product =await Product.findById(req.params.id);
     if(!product){
         return res.status(500).json({
@@ -59,9 +59,9 @@ exports.deleteProduct = async (req,res,next) =>{
         })
     }
 
-}
+})
 // Get One Product
-exports.getOneProduct = async (req,res,next) =>{
+exports.getOneProduct = asyncErrHandler(async (req,res,next) =>{
     let product =await Product.findById(req.params.id);
     if(!product){
         return res.status(500).json({
@@ -75,4 +75,4 @@ exports.getOneProduct = async (req,res,next) =>{
             product
         })
     }
-}
+})
