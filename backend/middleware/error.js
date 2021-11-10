@@ -5,8 +5,12 @@ module.exports = (err,req,res,next) =>{
 
 
     //wring mongodb error
+    if(err.name==="CastError"){
+        const message=`resource not found. Invalid: ${err.path}`
+        err = new ErrorHandler(message,400);
+    }
     res.status(err.statuscode).json({
         success:false,
-        error:err.stack
+        error:err.message
     })
 }
