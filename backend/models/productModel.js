@@ -35,7 +35,9 @@ const productSchema = mongoose.Schema({
     stock:{
         type:Number,
         required:true,
+        default:1,
         maxLength:[5,"cannot exceed 4 charchters"]
+
     },
     no_of_reviews:{
         type:Number,
