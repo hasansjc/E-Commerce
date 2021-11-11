@@ -49,14 +49,21 @@ userSchema.pre("save",async function(next){
 //Generating auth token
 userSchema.methods.generateAuthToken = async function () {
     try{ 
-       let token = await jwt.sign({_id:this._id},process.env.SECRET_KEY,{
+       let token = await jwt.sign({id:this._id},process.env.SECRET_KEY,{
             expiresIn:process.env.JWT_EXPIRE
        })
        return token;
     }
     catch(err){
         console.log(err)
-    }
-    
+    }    
+}
+userSchema.methods.comparePassword = async function (enteredpassword) {
+    try{ 
+       return await bcrypt.compare(enteredpassword, this.password);    
+       }
+    catch(err){
+        console.log(err)
+    }    
 }
 module.exports = mongoose.model("USER",userSchema);
